@@ -37,4 +37,517 @@
         .screen.active { opacity: 1; pointer-events: auto; transform: scale(1); z-index: 10; }
 
         h1 { font-size: 26px; font-weight: 800; text-align: center; margin-bottom: 8px; color: #574b43; }
-        .subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 24
+        .subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 24px; }
+        .glass-card { background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 24px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+
+        /* 입력 폼 */
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #574b43; }
+        .input-group input { width: 100%; padding: 16px; border: 2px solid rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.9); border-radius: 16px; font-size: 16px; font-weight: 600; outline: none; transition: all 0.3s; color: #574b43; }
+        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15); }
+
+        /* 커스터마이징 버튼 */
+        .customizer-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #78716c; }
+        .option-row { display: flex; gap: 8px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 6px; }
+        .option-btn { padding: 10px 14px; background: rgba(255, 255, 255, 0.7); border: 2px solid transparent; border-radius: 14px; font-size: 13px; font-weight: 600; color: #574b43; cursor: pointer; white-space: nowrap; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .option-btn.active { background: #fff; border-color: var(--primary); color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(251, 146, 60, 0.2); }
+
+        /* 귀여운 동물 CSS 아트 (호랑이, 곰, 토끼, 고양이) */
+        .avatar-preview-box { display: flex; justify-content: center; align-items: flex-end; height: 170px; margin-bottom: 20px; position: relative; border-bottom: 4px solid rgba(0,0,0,0.05); padding-bottom: 10px; }
+        .character-avatar { width: 90px; height: 130px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+        
+        .char-head { width: 74px; height: 70px; border-radius: 35px; position: relative; z-index: 3; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; justify-content: center; box-shadow: inset -4px -4px 10px rgba(0,0,0,0.08); }
+        .char-ears { position: absolute; top: -10px; width: 100%; height: 30px; display: flex; justify-content: space-between; z-index: -1; transition: all 0.3s; }
+        .ear-left, .ear-right { width: 24px; height: 24px; border-radius: 50%; background: inherit; }
+        
+        /* 동물별 특성 */
+        .animal-tiger { background: #f6ad55; }
+        .animal-tiger .ear-left, .animal-tiger .ear-right { border: 3px solid #ed8936; background: #feebc8; }
+        .animal-tiger::after { content: '≡'; position: absolute; top: 5px; font-size: 20px; font-weight: bold; color: #9c4221; line-height: 1; }
+        
+        .animal-bear { background: #b7791f; }
+        .animal-bear .ear-left, .animal-bear .ear-right { width: 28px; height: 28px; background: #975a16; }
+        
+        .animal-rabbit { background: #fdf2f8; }
+        .animal-rabbit .char-ears { top: -35px; justify-content: center; gap: 10px; }
+        .animal-rabbit .ear-left, .animal-rabbit .ear-right { width: 18px; height: 50px; border-radius: 50% 50% 0 0; background: #fdf2f8; box-shadow: inset 0 0 0 4px #fbcfe8; }
+        
+        .animal-cat { background: #cbd5e1; }
+        .animal-cat .ear-left, .animal-cat .ear-right { width: 0; height: 0; border-radius: 0; background: transparent; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 24px solid #cbd5e1; transform: translateY(-5px); }
+
+        /* 얼굴 이목구비 */
+        .char-face { position: absolute; top: 35px; width: 44px; display: flex; justify-content: space-between; align-items: center; z-index: 4; }
+        .char-eye { width: 8px; height: 8px; background: #4338ca; border-radius: 50%; transition: all 0.2s; }
+        .char-mouth { position: absolute; top: 8px; left: 16px; width: 12px; height: 8px; border-bottom: 3px solid #4338ca; border-radius: 0 0 10px 10px; }
+
+        /* 안경 */
+        .char-glasses { position: absolute; top: 26px; width: 64px; display: flex; justify-content: space-between; z-index: 5; opacity: 0; transition: opacity 0.2s; }
+        .char-glasses.glasses-round { opacity: 1; }
+        .char-glasses.glasses-round::before, .char-glasses.glasses-round::after { content: ''; width: 26px; height: 26px; border: 3px solid #334155; border-radius: 50%; display: block; background: rgba(255,255,255,0.2); backdrop-filter: blur(2px); }
+        .char-glasses.glasses-heart { opacity: 1; font-size: 24px; line-height: 1; content: '🩷 🩷'; letter-spacing: 2px; }
+        .char-glasses.glasses-heart::before { content: '🩷'; font-size: 24px; }
+        .char-glasses.glasses-heart::after { content: '🩷'; font-size: 24px; }
+
+        /* 모자 */
+        .char-hat { position: absolute; top: -15px; width: 64px; height: 30px; z-index: 6; display: none; }
+        .char-hat.hat-beanie { display: block; background: #3b82f6; border-radius: 30px 30px 0 0; top: -10px; }
+        .char-hat.hat-straw { display: block; background: #fde047; border-radius: 20px 20px 0 0; border-bottom: 6px solid #eab308; top: -12px; width: 80px; left: -3px; }
+
+        /* 몸통 및 옷 */
+        .char-body { width: 60px; height: 50px; border-radius: 20px 20px 10px 10px; position: relative; z-index: 2; margin-top: -5px; transition: all 0.3s; box-shadow: inset -4px -4px 10px rgba(0,0,0,0.1); }
+        .body-jacket { background: #64748b; border-left: 10px solid #475569; border-right: 10px solid #475569; }
+        .body-sweater { background: #84cc16; }
+        .body-sweater::after { content: '🧶'; position: absolute; top: 10px; left: 20px; font-size: 14px; opacity: 0.5; }
+        .body-trench { background: #d97706; border-radius: 10px 10px 4px 4px; border-left: 15px solid #b45309; }
+
+        /* 감정 애니메이션 */
+        .sweat-drop { position: absolute; top: 10px; right: 0px; font-size: 20px; opacity: 0; z-index: 10; }
+        @keyframes avatar-listening { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.96) translateY(2px); } }
+        @keyframes avatar-thinking { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-8deg); } }
+        @keyframes avatar-impatience { 0%, 100% { transform: translateY(0); } 20%, 60% { transform: translateY(-4px); } }
+        @keyframes sweat-drip { 0% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(10px); } }
+
+        .character-avatar.listening { animation: avatar-listening 2.5s infinite ease-in-out; }
+        .character-avatar.thinking .char-head { animation: avatar-thinking 2s infinite ease-in-out; }
+        .character-avatar.impatience { animation: avatar-impatience 0.8s infinite linear; }
+        .character-avatar.impatience .sweat-drop { content: '💦'; animation: sweat-drip 1s infinite ease-in; }
+        .character-avatar.thinking .char-mouth { width: 6px; height: 6px; border-radius: 50%; border: none; background: #4338ca; top: 10px; left: 19px; }
+
+        /* 메인 버튼 */
+        .btn-prime { width: 100%; padding: 18px; background: var(--primary); border: none; border-radius: 18px; color: white; font-size: 18px; font-weight: 800; cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); margin-top: auto; box-shadow: 0 8px 20px rgba(251, 146, 60, 0.3); }
+        .btn-prime:active { transform: scale(0.96); box-shadow: 0 4px 10px rgba(251, 146, 60, 0.2); }
+
+        /* 게임 화면 탑바 */
+        .game-top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 0 10px; }
+        .score-display { font-size: 22px; font-weight: 900; color: #574b43; transition: transform 0.2s; }
+        .score-display.bump { transform: scale(1.2); color: var(--success); }
+        .level-badge { padding: 8px 16px; background: rgba(251, 146, 60, 0.15); border-radius: 20px; font-size: 14px; font-weight: 800; color: #ea580c; }
+        .lives-container { display: flex; gap: 6px; }
+        .heart-icon { font-size: 22px; color: var(--danger); transition: all 0.3s; }
+        .heart-icon.lost { filter: grayscale(100%); opacity: 0.3; transform: scale(0.8); }
+
+        /* 오디오 컨트롤 */
+        .audio-control-center { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px 0 30px 0; gap: 16px; }
+        .btn-audio-listen { width: 90px; height: 90px; border-radius: 50%; background: #fff; border: none; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        .btn-audio-listen:active { transform: scale(0.92); }
+        .btn-audio-listen svg { width: 38px; height: 38px; fill: var(--primary); }
+        .btn-audio-listen.playing { background: var(--primary); box-shadow: 0 0 0 10px rgba(251, 146, 60, 0.2); }
+        .btn-audio-listen.playing svg { fill: white; }
+        .voice-indicator { font-size: 14px; font-weight: 700; color: #78716c; background: rgba(255,255,255,0.6); padding: 6px 16px; border-radius: 20px; }
+
+        /* 단어 버튼 그리드 */
+        .words-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: auto; margin-bottom: 20px; }
+        .btn-word-option { background: rgba(255, 255, 255, 0.8); border: 2px solid transparent; border-radius: 20px; padding: 22px; font-size: 22px; font-weight: 800; color: #574b43; cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .btn-word-option:active { transform: scale(0.96); }
+        .btn-word-option.correct-flash { background: var(--success) !important; color: white !important; transform: scale(1.02); box-shadow: 0 10px 20px rgba(74, 222, 128, 0.4); }
+        .btn-word-option.wrong-flash { background: var(--danger) !important; color: white !important; }
+
+        /* 효과 */
+        @keyframes shake-screen { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px) rotate(-1deg); } 40%, 80% { transform: translateX(8px) rotate(1deg); } }
+        .phone-container.shake { animation: shake-screen 0.3s cubic-bezier(.36,.07,.19,.97) both; border: 2px solid var(--danger); }
+        .floating-score-effect { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-size: 36px; font-weight: 900; pointer-events: none; opacity: 0; z-index: 100; transition: all 0.5s ease-out; text-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .floating-score-effect.trigger { opacity: 1; transform: translate(-50%, -90%); }
+
+        /* 오버레이 패널 (클리어) */
+        .level-clear-panel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 50; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .level-clear-panel.active { opacity: 1; pointer-events: auto; }
+        .level-clear-title { font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+
+        /* 랭킹 리스트 */
+        .rank-box-wrapper { flex: 1; overflow-y: auto; margin-bottom: 20px; padding-right: 4px; }
+        .rank-item { background: rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 16px 20px; margin-bottom: 12px; display: flex; flex-direction: column; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .rank-main-line { display: flex; justify-content: space-between; align-items: center; }
+        .rank-num { font-size: 18px; font-weight: 900; min-width: 55px; color: #574b43; }
+        .rank-name { font-size: 16px; font-weight: 800; color: #574b43; }
+        .rank-score { font-size: 18px; font-weight: 900; color: var(--primary); }
+        .btn-others-toggle { font-size: 12px; color: #fff; background: #d6d3d1; border: none; padding: 4px 10px; border-radius: 8px; margin-left: 8px; cursor: pointer; font-weight: 700; transition: background 0.2s; }
+        .btn-others-toggle:hover { background: #a8a29e; }
+        .rank-others-list { margin-top: 12px; padding-top: 12px; border-top: 2px dashed rgba(0,0,0,0.06); display: none; flex-direction: column; gap: 8px; }
+        .rank-others-list.open { display: flex; }
+        .sub-rank-user { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container" id="phoneContainer">
+        <div class="floating-score-effect" id="floatingScore"></div>
+
+        <div class="level-clear-panel" id="levelClearPanel">
+            <div class="level-clear-title" id="levelClearTitle">레벨 클리어!</div>
+            <p style="color: #78716c; margin-bottom: 24px; font-weight: 600;">훌륭합니다. 다음 단계로 진급합니다.</p>
+            <button class="btn-prime" style="width: 220px;" onclick="proceedToNextLevel()">계속하기</button>
+        </div>
+
+        <div class="screen active" id="screenIntro">
+            <h1>나만의 학습 가이드</h1>
+            <p class="subtitle">귀여운 동물을 선택하고 이름을 지어주세요</p>
+            
+            <div class="avatar-preview-box">
+                <div class="character-avatar listening" id="introAvatar">
+                    <div class="sweat-drop">💦</div>
+                    <div class="char-hat" id="introHat"></div>
+                    <div class="char-head animal-bear" id="introAnimal">
+                        <div class="char-ears"><div class="ear-left"></div><div class="ear-right"></div></div>
+                        <div class="char-glasses" id="introGlasses"></div>
+                        <div class="char-face"><div class="char-eye"></div><div class="char-eye"></div><div class="char-mouth"></div></div>
+                    </div>
+                    <div class="char-body body-sweater" id="introBody"></div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="input-group">
+                    <label>가이드의 이름</label>
+                    <input type="text" id="inputName" placeholder="영문, 한글, 숫자만 가능" maxlength="10">
+                </div>
+                <div class="customizer-title">동물 선택</div>
+                <div class="option-row" id="animalOptions">
+                    <button class="option-btn active" data-val="animal-bear">곰</button>
+                    <button class="option-btn" data-val="animal-tiger">호랑이</button>
+                    <button class="option-btn" data-val="animal-rabbit">토끼</button>
+                    <button class="option-btn" data-val="animal-cat">고양이</button>
+                </div>
+                <div class="customizer-title">모자 및 안경</div>
+                <div class="option-row" id="accessoryOptions">
+                    <button class="option-btn active" data-type="hat" data-val="none">기본</button>
+                    <button class="option-btn" data-type="hat" data-val="hat-beanie">비니</button>
+                    <button class="option-btn" data-type="hat" data-val="hat-straw">밀짚모자</button>
+                    <button class="option-btn" data-type="glasses" data-val="glasses-round">동글안경</button>
+                    <button class="option-btn" data-type="glasses" data-val="glasses-heart">하트안경</button>
+                </div>
+                <div class="customizer-title">의상</div>
+                <div class="option-row" id="bodyOptions">
+                    <button class="option-btn active" data-val="body-sweater">스웨터</button>
+                    <button class="option-btn" data-val="body-jacket">재킷</button>
+                    <button class="option-btn" data-val="body-trench">트렌치코트</button>
+                </div>
+            </div>
+            <button class="btn-prime" id="btnStartGame">챌린지 시작하기</button>
+        </div>
+
+        <div class="screen" id="screenGame">
+            <div class="game-top-bar">
+                <div class="score-display" id="gameScoreDisplay">0 점</div>
+                <div class="level-badge" id="gameLevelBadge">레벨 1</div>
+                <div class="lives-container" id="livesContainer">
+                    <span class="heart-icon">❤️</span><span class="heart-icon">❤️</span><span class="heart-icon">❤️</span>
+                </div>
+            </div>
+            
+            <div class="avatar-preview-box" style="height: 140px; border:none; margin-bottom:0;">
+                <div class="character-avatar listening" id="gameAvatar">
+                    <div class="sweat-drop">💦</div>
+                    <div class="char-hat" id="gameHat"></div>
+                    <div class="char-head animal-bear" id="gameAnimal">
+                        <div class="char-ears"><div class="ear-left"></div><div class="ear-right"></div></div>
+                        <div class="char-glasses" id="gameGlasses"></div>
+                        <div class="char-face"><div class="char-eye"></div><div class="char-eye"></div><div class="char-mouth"></div></div>
+                    </div>
+                    <div class="char-body body-sweater" id="gameBody"></div>
+                </div>
+            </div>
+
+            <div class="audio-control-center">
+                <button class="btn-audio-listen" id="btnAudioPlay">
+                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="voice-indicator" id="voiceIndicator">버튼을 눌러 소리를 들으세요</div>
+            </div>
+            
+            <div class="words-grid" id="wordsGrid"></div>
+        </div>
+
+        <div class="screen" id="screenResult">
+            <h1 id="resultTitle">게임 종료</h1>
+            <p class="subtitle" id="resultSubtitle">최종 순위를 확인하세요.</p>
+            <div class="glass-card" style="text-align: center; padding: 30px 10px; margin-bottom: 20px;">
+                <div style="font-size: 14px; color: var(--text-muted); margin-bottom: 8px; font-weight:700;">최종 마스터 스코어</div>
+                <div id="finalScoreDisplay" style="font-size: 42px; font-weight: 900; color: var(--primary);">0 점</div>
+            </div>
+            <div class="customizer-title" style="font-size: 15px;">🏆 명예의 전당 (실시간 랭킹)</div>
+            <div class="rank-box-wrapper" id="rankBoxWrapper"></div>
+            <button class="btn-prime" id="btnRestart">새로 시작하기</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. 사운드 및 햅틱 엔진 초기화
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSfx(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            if (type === 'correct') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+        function triggerHapticAndShake() {
+            els.phoneContainer.classList.add('shake');
+            if (navigator.vibrate) navigator.vibrate([150, 50, 150]); 
+        }
+
+        // 2. 최종 승인된 게임 데이터 (레벨 1~4)
+        const GAME_LEVELS = {
+            1: { name: "레벨 1 (모음)", pairs: [['아이', '오이'], ['구두', '구도'], ['나무', '나비'], ['커피', '코피'], ['모래', '머리'], ['별', '벌'], ['배', '비'], ['밤', '뱀'], ['말', '발'], ['볼', '발'], ['파', '피'], ['소', '새'], ['무', '마']] },
+            2: { name: "레벨 2 (받침)", pairs: [['산', '상', '삼'], ['곰', '공'], ['밥', '방', '밤'], ['감', '강'], ['별', '병', '명'], ['돈', '돌'], ['문', '물'], ['짐', '집'], ['글', '금'], ['잔', '장'], ['귤', '균'], ['솜', '솥']] },
+            3: { name: "레벨 3 (자음)", pairs: [['도끼', '토끼'], ['달', '딸', '탈'], ['불', '뿔', '풀'], ['방', '빵'], ['굴', '꿀'], ['고리', '꼬리'], ['종', '총'], ['발', '팔'], ['공', '콩'], ['살', '쌀'], ['짐', '찜']] },
+            4: { name: "레벨 4 (최종 보스전)", pairs: [['얼음', '어른'], ['단어', '다녀'], ['물고기', '불고기'], ['책상', '색상'], ['팔', '발'], ['굴', '글'], ['자다', '차다', '짜다'], ['거울', '겨울']] }
+        };
+
+        // 3. 앱 상태 및 DOM 연결
+        let appState = {
+            user: { name: '', animal: 'animal-bear', hat: '', glasses: '', body: 'body-sweater' },
+            score: 0, lives: 3, currentLevel: 1, currentPairIndex: 0, shuffledPairsOrder: [], correctTargetWord: '', voiceTurn: 'female',
+            listenCountThisRound: 0, lastActionTime: Date.now(), avatarTimer: null, isAudioPlaying: false
+        };
+
+        const synth = window.speechSynthesis;
+        const els = {
+            phoneContainer: document.getElementById('phoneContainer'), floatingScore: document.getElementById('floatingScore'),
+            screenIntro: document.getElementById('screenIntro'), screenGame: document.getElementById('screenGame'), screenResult: document.getElementById('screenResult'),
+            inputName: document.getElementById('inputName'), btnStartGame: document.getElementById('btnStartGame'),
+            gameScoreDisplay: document.getElementById('gameScoreDisplay'), gameLevelBadge: document.getElementById('gameLevelBadge'), livesContainer: document.getElementById('livesContainer'),
+            gameAvatar: document.getElementById('gameAvatar'), btnAudioPlay: document.getElementById('btnAudioPlay'), voiceIndicator: document.getElementById('voiceIndicator'), wordsGrid: document.getElementById('wordsGrid'),
+            levelClearPanel: document.getElementById('levelClearPanel'), levelClearTitle: document.getElementById('levelClearTitle')
+        };
+
+        // 4. 커스터마이징 로직 (이모티콘 차단 포함)
+        els.inputName.addEventListener('input', e => e.target.value = e.target.value.replace(/[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s]/g, ''));
+        
+        const updateAvatarPart = (part, value, containerPrefix = 'intro') => {
+            appState.user[part] = value;
+            const el = document.getElementById(`${containerPrefix}${part.charAt(0).toUpperCase() + part.slice(1)}`);
+            if(part === 'hat' || part === 'glasses') {
+                el.className = `char-${part} ${value !== 'none' ? value : ''}`;
+            } else {
+                el.className = `char-${part==='animal'?'head':'body'} ${value}`;
+            }
+        };
+
+        document.getElementById('animalOptions').addEventListener('click', e => {
+            if(!e.target.dataset.val) return;
+            document.querySelectorAll('#animalOptions .option-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            updateAvatarPart('animal', e.target.dataset.val);
+        });
+
+        document.getElementById('bodyOptions').addEventListener('click', e => {
+            if(!e.target.dataset.val) return;
+            document.querySelectorAll('#bodyOptions .option-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            updateAvatarPart('body', e.target.dataset.val);
+        });
+
+        document.getElementById('accessoryOptions').addEventListener('click', e => {
+            const btn = e.target.closest('.option-btn');
+            if(!btn) return;
+            const type = btn.dataset.type;
+            document.querySelectorAll(`#accessoryOptions .option-btn[data-type="${type}"]`).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateAvatarPart(type, btn.dataset.val);
+        });
+
+        // 5. 게임 시작 및 오디오 예열(Warm-up)
+        els.btnStartGame.addEventListener('click', () => {
+            if(!els.inputName.value.trim()) return alert("이름을 입력해주세요.");
+            
+            // 엔진 예열 (즉각 반응을 위해 필수)
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            if ('speechSynthesis' in window) {
+                let warmup = new SpeechSynthesisUtterance(''); warmup.volume = 0; synth.speak(warmup);
+            }
+
+            appState.user.name = els.inputName.value.trim();
+            // 게임 화면 아바타 동기화
+            updateAvatarPart('animal', appState.user.animal, 'game');
+            updateAvatarPart('hat', appState.user.hat, 'game');
+            updateAvatarPart('glasses', appState.user.glasses, 'game');
+            updateAvatarPart('body', appState.user.body, 'game');
+
+            appState.score = 0; appState.lives = 3;
+            switchScreen(els.screenIntro, els.screenGame);
+            startLevel(1);
+        });
+
+        // 6. MP3 우선 재생 + TTS 대체(Fallback) 오디오 재생 로직
+        function playCurrentWordAudio() {
+            if(appState.isAudioPlaying) return;
+            appState.isAudioPlaying = true;
+            resetAvatarState();
+            
+            appState.listenCountThisRound++;
+            if(appState.listenCountThisRound > 1) modifyScore(-20, "반복 청취 (-20)", false);
+            
+            els.btnAudioPlay.classList.add('playing');
+            els.voiceIndicator.innerText = `${appState.voiceTurn === 'female' ? '👩 여성' : '👨 남성'} 성우 발음 재생 중...`;
+            
+            // 1순위: 로컬 audio 폴더의 mp3 파일 시도
+            const audioFilePath = `audio/${appState.correctTargetWord}_${appState.voiceTurn}.mp3`;
+            const realAudio = new Audio(audioFilePath);
+            
+            realAudio.play().then(() => {
+                realAudio.onend = finalizeAudioTurn;
+            }).catch(() => {
+                // 2순위: 파일이 없으면 끊김 없이 브라우저 기본 TTS로 대체 (Fallback)
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(appState.correctTargetWord);
+                    utterance.lang = 'ko-KR';
+                    utterance.pitch = appState.voiceTurn === 'female' ? 1.2 : 0.75;
+                    utterance.rate = 0.95;
+                    utterance.onend = finalizeAudioTurn;
+                    utterance.onerror = finalizeAudioTurn;
+                    synth.speak(utterance);
+                } else {
+                    setTimeout(finalizeAudioTurn, 1000);
+                }
+            });
+        }
+
+        function finalizeAudioTurn() {
+            appState.isAudioPlaying = false;
+            els.btnAudioPlay.classList.remove('playing');
+            els.voiceIndicator.innerText = `단어를 골라주세요`;
+            appState.voiceTurn = appState.voiceTurn === 'female' ? 'male' : 'female';
+        }
+
+        els.btnAudioPlay.addEventListener('click', playCurrentWordAudio);
+
+        // 7. 게임 진행 로직
+        function switchScreen(from, to) { from.classList.remove('active'); to.classList.add('active'); }
+        
+        function startLevel(num) {
+            appState.currentLevel = num; appState.currentPairIndex = 0;
+            appState.shuffledPairsOrder = [...GAME_LEVELS[num].pairs].sort(() => Math.random() - 0.5);
+            els.gameLevelBadge.innerText = GAME_LEVELS[num].name;
+            updateStatus(); loadRound(); startAvatarTimer();
+        }
+
+        function loadRound() {
+            resetAvatarState();
+            appState.listenCountThisRound = 0; appState.voiceTurn = 'female';
+            els.voiceIndicator.innerText = "단어를 준비 중입니다...";
+            const pair = appState.shuffledPairsOrder[appState.currentPairIndex];
+            appState.correctTargetWord = pair[Math.floor(Math.random() * pair.length)];
+            
+            els.wordsGrid.innerHTML = '';
+            [...pair].sort(() => Math.random() - 0.5).forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-word-option'; btn.innerText = word;
+                btn.onclick = () => handleSelect(word, btn);
+                els.wordsGrid.appendChild(btn);
+            });
+
+            // 오디오 자동 재생 (0.4초 딜레이)
+            setTimeout(playCurrentWordAudio, 400);
+        }
+
+        function handleSelect(word, btn) {
+            if(appState.isAudioPlaying) return;
+            els.wordsGrid.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'none');
+            
+            if(word === appState.correctTargetWord) {
+                btn.classList.add('correct-flash');
+                playSfx('correct'); 
+                modifyScore(100, "+100", true);
+                setTimeout(advanceRound, 800);
+            } else {
+                btn.classList.add('wrong-flash');
+                playSfx('wrong'); 
+                triggerHapticAndShake(); 
+                modifyScore(-100, "-100", false);
+                appState.lives--; updateStatus();
+                setTimeout(() => {
+                    els.phoneContainer.classList.remove('shake');
+                    if(appState.lives <= 0) endGame(false);
+                    else { els.wordsGrid.querySelectorAll('button').forEach(b => b.style.pointerEvents = 'auto'); resetAvatarState(); }
+                }, 800);
+            }
+        }
+
+        function advanceRound() {
+            appState.currentPairIndex++;
+            if(appState.currentPairIndex >= appState.shuffledPairsOrder.length) {
+                if(appState.currentLevel < 4) {
+                    els.levelClearTitle.innerText = `레벨 ${appState.currentLevel} 클리어!`;
+                    els.levelClearPanel.classList.add('active');
+                    triggerConfetti();
+                } else endGame(true);
+            } else loadRound();
+        }
+
+        window.proceedToNextLevel = function() {
+            els.levelClearPanel.classList.remove('active');
+            startLevel(appState.currentLevel + 1);
+        }
+
+        function triggerConfetti() {
+            var duration = 2000; var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#fb923c', '#4ade80', '#60a5fa'] });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#fb923c', '#4ade80', '#60a5fa'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        function modifyScore(amt, txt, isPositive) {
+            appState.score = Math.max(0, appState.score + amt);
+            els.gameScoreDisplay.innerText = `${appState.score} 점`;
+            if(isPositive) { els.gameScoreDisplay.classList.add('bump'); setTimeout(() => els.gameScoreDisplay.classList.remove('bump'), 200); }
+            els.floatingScore.innerText = txt; els.floatingScore.style.color = isPositive ? '#4ade80' : '#f87171';
+            els.floatingScore.classList.add('trigger');
+            setTimeout(() => els.floatingScore.classList.remove('trigger'), 600);
+        }
+
+        function updateStatus() {
+            els.gameScoreDisplay.innerText = `${appState.score} 점`;
+            els.livesContainer.querySelectorAll('.heart-icon').forEach((h, i) => h.classList.toggle('lost', i >= appState.lives));
+        }
+
+        // 8. 감정/상태 애니메이션 제어
+        function startAvatarTimer() {
+            if(appState.avatarTimer) clearInterval(appState.avatarTimer);
+            appState.avatarTimer = setInterval(() => {
+                if(appState.isAudioPlaying) return;
+                const e = Date.now() - appState.lastActionTime;
+                els.gameAvatar.className = `character-avatar ${e>=10000?'impatience':e>=5000?'thinking':'listening'}`;
+            }, 1000);
+        }
+        function resetAvatarState() { appState.lastActionTime = Date.now(); els.gameAvatar.className = 'character-avatar listening'; }
+
+        // 9. 랭킹 시스템
+        function endGame(isClear) {
+            clearInterval(appState.avatarTimer); switchScreen(els.screenGame, els.screenResult);
+            document.getElementById('resultTitle').innerText = isClear ? "🎉 올 클리어 성공!" : "💀 게임 오버";
+            document.getElementById('finalScoreDisplay').innerText = `${appState.score} 점`;
+            
+            let ranks = JSON.parse(localStorage.getItem('kListenRanking')) || [];
+            ranks.push({name: appState.user.name, score: appState.score, date: Date.now()});
+            ranks.sort((a,b) => b.score!==a.score ? b.score-a.score : b.date-a.date).splice(15);
+            localStorage.setItem('kListenRanking', JSON.stringify(ranks));
+            
+            const wrapper = document.getElementById('rankBoxWrapper'); wrapper.innerHTML = '';
+            let currentRank = 1, i = 0;
+            while(i < ranks.length) {
+                const score = ranks[i].score;
+                const group = ranks.filter(r => r.score === score);
+                const leader = group[0]; const count = group.length;
+                
+                let btnHtml = count > 1 ? `<button class="btn-others-toggle" onclick="this.nextElementSibling.classList.toggle('open'); this.innerText=this.innerText.includes('닫기')?'그 외 ${count-1}명':'닫기'">그 외 ${count-1}명</button>` : '';
+                let listHtml = count > 1 ? `<div class="rank-others-list">${group.map((u,idx)=>`<div class="sub-rank-user"><span>${idx+1}. ${u.name} ${u.name===appState.user.name?'<b style="color:var(--primary);">(나)</b>':''}</span><span>${new Date(u.date).toLocaleDateString()}</span></div>`).join('')}</div>` : '';
+                
+                wrapper.innerHTML += `<div class="rank-item"><div class="rank-main-line"><div class="rank-badge-info"><span class="rank-num">${count>1?'공동 ':''}${currentRank}등</span><span class="rank-name">${leader.name} ${leader.name===appState.user.name?'<span style="color:var(--primary); font-size:12px;">(나)</span>':''}</span></div><span class="rank-score">${score} P</span></div>${btnHtml}${listHtml}</div>`;
+                currentRank += count; i += count;
+            }
+        }
+        document.getElementById('btnRestart').onclick = () => { resetAvatarState(); switchScreen(els.screenResult, els.screenIntro); };
+    </script>
+</body>
+</html>
